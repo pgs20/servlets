@@ -34,19 +34,15 @@ public class MainServlet extends HttpServlet {
       if (path.equals(BASE)) {
         if (method.equals(METHOD_GET)) {
           controller.all(resp);
-          return;
         } else if (method.equals(METHOD_POST)) {
           controller.save(req.getReader(), resp);
-          return;
         }
       } else if (path.matches(BASE_BY_ID)) {
         final var id = Long.parseLong(path.substring(path.lastIndexOf("/")));
         if (method.equals(METHOD_GET)) {
           controller.getById(id, resp);
-          return;
         } else if (method.equals(METHOD_DELETE)) {
           controller.removeById(id, resp);
-          return;
         }
       } else {
         resp.setStatus(HttpServletResponse.SC_NOT_FOUND);

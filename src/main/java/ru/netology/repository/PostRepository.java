@@ -3,6 +3,7 @@ package ru.netology.repository;
 import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public class PostRepository {
   private ConcurrentMap<Long, Post> repository = new ConcurrentHashMap<Long, Post>();
 
   public List<Post> all() {
-    return (List<Post>) repository.values();
+    return new ArrayList<>(repository.values());
   }
 
   public Optional<Post> getById(long id) {
@@ -23,8 +24,8 @@ public class PostRepository {
   public Post save(Post post) {
     if (post.getId() == 0) {
       long count = repository.size() + 1;
+      post.setId(count);
       repository.put(count, post);
-      return post;
     } else {
       if (!repository.containsKey(post.getId())) {
         throw new NotFoundException("Поста с таким id не существует");
