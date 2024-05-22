@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-// Stub
 public class PostRepository {
   private ConcurrentMap<Long, Post> repository = new ConcurrentHashMap<Long, Post>();
 
