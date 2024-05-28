@@ -1,7 +1,8 @@
 package ru.netology.servlet;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.netology.controller.PostController;
-import ru.netology.repository.PostRepository;
+import ru.netology.repository.PostRepositoryStubImpl;
 import ru.netology.service.PostService;
 
 import javax.servlet.http.HttpServlet;
@@ -19,18 +20,17 @@ public class MainServlet extends HttpServlet {
 
   @Override
   public void init() {
-    final var repository = new PostRepository();
-    final var service = new PostService(repository);
+    final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("ru.netology");
+    final var repository = context.getBean(PostRepositoryStubImpl.class);
+    final var service = context.getBean(PostService.class);
     controller = new PostController(service);
   }
 
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp) {
-    // если деплоились в root context, то достаточно этого
     try {
       final String path = req.getRequestURI();
       final String method = req.getMethod();
-      // primitive routing
       if (path.equals(BASE)) {
         if (method.equals(METHOD_GET)) {
           controller.all(resp);
